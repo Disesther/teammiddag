@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teammiddag 9 februari 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #00303C;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .slide {
+            display: none;
+            height: 100vh;
+            width: 100vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 40px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confetti-fall linear forwards;
+            z-index: 1000;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                top: 100vh;
+                transform: rotate(720deg);
+            }
+        }
+
+        /* Albert Heijn gradient backgrounds */
+        .slide-1 { background: linear-gradient(135deg, #00A0E2 0%, #00303C 100%); }
+        .slide-2 { background: linear-gradient(135deg, #9B59B6 0%, #00303C 100%); }
+        .slide-3 { background: linear-gradient(135deg, #E83F6F 0%, #00303C 100%); }
+        .slide-4 { background: linear-gradient(135deg, #FF9F1C 0%, #00303C 100%); }
+        .slide-5 { background: linear-gradient(135deg, #7B68EE 0%, #00303C 100%); }
+        .slide-6 { background: linear-gradient(135deg, #00A0E2 0%, #00303C 100%); }
+        .slide-7 { background: linear-gradient(135deg, #E83F6F 0%, #00303C 100%); }
+        .slide-8 { background: linear-gradient(135deg, #1DB954 0%, #00303C 100%); }
+
+        h1 {
+            font-size: clamp(2rem, 8vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            animation: slideUp 0.6s ease-out;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 30px;
+            animation: slideUp 0.6s ease-out 0.1s both;
+        }
+
+        p, li {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            line-height: 1.6;
+            animation: slideUp 0.6s ease-out 0.2s both;
+            max-width: 800px;
+        }
+
+        ul {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        .emoji {
+            font-size: 2rem;
+        }
+
+        .ah-button {
+            background: #00A0E2;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-top: 30px;
+            display: inline-block;
+            animation: pulse 2s infinite;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .ah-button:hover {
+            transform: scale(1.1);
+            background: #0088c2;
+        }
+
+        .ah-button-secondary {
+            background: rgba(255,255,255,0.2);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-top: 15px;
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid white;
+            font-size: 1rem;
+        }
+
+        .ah-button-secondary:hover {
+            background: white;
+            color: #00303C;
+        }
+
+        .nav {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: #00A0E2;
+            border-color: #00A0E2;
+        }
+
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: #00A0E2;
+            transition: width 0.3s;
+        }
+
+        .slide-number {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            animation: slideUp 0.6s ease-out 0.3s both;
+        }
+
+        .speeddating-question {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-style: italic;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #00A0E2;
+            display: none;
+        }
+
+        .speeddating-question.visible {
+            display: block;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .speeddating-all .speeddating-question {
+            display: block;
+        }
+
+        .intro-text {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            opacity: 0.9;
+        }
+
+        .big-number {
+            font-size: clamp(4rem, 15vw, 10rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #00A0E2, #00c8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .wrapped-badge {
+            background: linear-gradient(135deg, #FF9F1C, #E83F6F);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .date-badge {
+            background: rgba(255,255,255,0.15);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        /* Countdown styles */
+        .countdown {
+            display: flex;
+            gap: 20px;
+            margin: 30px 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 80px;
+        }
+
+        .countdown-number {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Quiz styles */
+        .quiz-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .quiz-option {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 15px 30px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        .quiz-option.selected {
+            border-color: #00A0E2;
+            background: rgba(0, 160, 226, 0.3);
+        }
+
+        .quiz-result {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .quiz-result.visible {
+            display: block;
+        }
+
+        /* Playlist counter */
+        .playlist-counter {
+            background: rgba(255,255,255,0.15);
+            padding: 15px 25px;
+            border-radius: 30px;
+            margin: 20px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .playlist-counter-number {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #1DB954;
+        }
+
+        /* Random question highlight */
+        .highlighted-question {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 6px solid #00A0E2;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .slide {
+                padding: 20px;
+            }
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+            }
+            .countdown {
+                gap: 10px;
+            }
+            .countdown-item {
+                padding: 15px;
+                min-width: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress" id="progress"></div>
+    <div class="slide-number" id="slideNumber">1 / 8</div>
+
+    <!-- Slide 1: Welcome met countdown -->
+    <div class="slide slide-1 active">
+        <div class="date-badge">9 februari 2026</div>
+        <h1>Teammiddag</h1>
+        <p class="intro-text">Talent & Organizational Development</p>
+        <p style="opacity: 0.8; margin-top: 10px;">Wat kan je verwachten?</p>
+
+        <div class="countdown" id="countdown">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">-</span>
+                <span class="countdown-label">dagen</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">-</span>
+                <span class="countdown-label">uren</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">-</span>
+                <span class="countdown-label">minuten</span>
+            </div>
+        </div>
+
+        <div class="ah-button" onclick="nextSlide()">
+            Ontdek het →
+        </div>
+    </div>
+
+    <!-- Slide 2: Huiswerk -->
+    <div class="slide slide-2">
+        <span class="emoji" style="font-size: 4rem;">🤔</span>
+        <h2>Alvast nadenken...</h2>
+        <h1>Huiswerk</h1>
+        <div class="card">
+            <p>Welke taak zou je het liefst laten <strong>vervangen</strong>, <strong>versnellen</strong> of <strong>verbeteren</strong> door AI?</p>
+        </div>
+        <p style="opacity: 0.8; margin-top: 20px;">Neem je antwoord mee naar de teammiddag!</p>
+    </div>
+
+    <!-- Slide 3: AI Kickoff -->
+    <div class="slide slide-3">
+        <span class="emoji" style="font-size: 4rem;">🤖</span>
+        <h2>Eerst upgraden we</h2>
+        <h1>Je AI Skills</h1>
+        <div class="card">
+            <p>We beginnen met een AI opfriscursus</p>
+            <ul>
+                <li><span class="emoji">💡</span> Wat is AI en hoe werkt het?</li>
+                <li><span class="emoji">✍️</span> Basis prompten</li>
+                <li><span class="emoji">🔧</span> Je vervelendste taak → jouw persoonlijke GPT</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 4: MBO Wrapped -->
+    <div class="slide slide-4">
+        <div class="wrapped-badge">2025 WRAPPED</div>
+        <h2>Tijd om terug te kijken</h2>
+        <div class="big-number">MBO</div>
+        <h1>Results</h1>
+        <p>Onze medewerkerbetrokkenheid van 2025, Spotify Wrapped style</p>
+    </div>
+
+    <!-- Slide 5: Playlist met counter -->
+    <div class="slide slide-5">
+        <div class="wrapped-badge">2025 WRAPPED</div>
+        <span class="emoji" style="font-size: 4rem;">🎵</span>
+        <h2>Wat was jouw nummer van 2025?</h2>
+
+        <div class="playlist-counter">
+            <span>🎧</span>
+            <span>Al <span class="playlist-counter-number" id="playlistCount">0</span> nummer(s) in de playlist!</span>
+        </div>
+
+        <p>Welk nummer was de soundtrack van jouw (werk)jaar? Voeg hem toe aan onze teamplaylist!</p>
+        <a href="https://open.spotify.com/playlist/4qrFviQkqi9aS07FJ2Nhl0?si=A0CiZT2iSWSzwHfoTcgi_g&pt=b591f6520e2c09278c32b11c394a8062&pi=oy6Ds9hMT-OMQ" target="_blank" class="ah-button">
+            🎧 Open Playlist
+        </a>
+    </div>
+
+    <!-- Slide 6: Samenwerking -->
+    <div class="slide slide-6">
+        <span class="emoji" style="font-size: 4rem;">🤝</span>
+        <h2>Samenwerken in 2026</h2>
+        <h1>Actuele Thema's</h1>
+        <div class="card">
+            <p>Waar vinden we elkaar? Hoe willen we samenwerken?</p>
+        </div>
+    </div>
+
+    <!-- Slide 7: Speeddating met random vraag -->
+    <div class="slide slide-7">
+        <h2>Elkaar beter leren kennen</h2>
+        <h1>Speeddaten</h1>
+
+        <div id="randomQuestionContainer">
+            <div class="highlighted-question" id="highlightedQuestion">
+                Klik op de knop voor een random vraag!
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="ah-button" onclick="showRandomQuestion()">
+                🎲 Geef mij een vraag
+            </button>
+            <button class="ah-button-secondary" onclick="toggleAllQuestions()">
+                📋 Toon alle vragen
+            </button>
+        </div>
+
+        <div class="card" id="allQuestionsCard" style="display: none; text-align: left; max-height: 40vh; overflow-y: auto; margin-top: 20px;">
+            <div class="speeddating-question visible">💚 Wat geeft jou écht energie in het leven? En hoe merk je dat aan jezelf?</div>
+            <div class="speeddating-question visible">✨ Als je een vaardigheid of talent zou mogen kiezen, welke kies je dan?</div>
+            <div class="speeddating-question visible">🔍 Waar ben je op dit moment nieuwsgierig naar in je leven?</div>
+            <div class="speeddating-question visible">☀️ Wat is een kleine gewoonte of ritueel waar je echt blij van wordt?</div>
+            <div class="speeddating-question visible">🚀 Wat is een droom of doel dat je in 2026 wilt gaan doen?</div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Afsluiting met confetti -->
+    <div class="slide slide-8">
+        <span class="emoji" style="font-size: 5rem; animation: float 2s ease-in-out infinite;">🎉</span>
+        <h1>Tot 9 februari!</h1>
+        <p>We hebben er zin in. Jij ook?</p>
+
+        <div class="card">
+            <p><strong>13:00 uur in A110 @ HK</strong></p>
+            <p style="margin-top: 15px;">Vergeet niet: voeg je nummer van 2025 toe aan de playlist!</p>
+            <a href="https://open.spotify.com/playlist/4qrFviQkqi9aS07FJ2Nhl0?si=A0CiZT2iSWSzwHfoTcgi_g&pt=b591f6520e2c09278c32b11c394a8062&pi=oy6Ds9hMT-OMQ" target="_blank" class="ah-button">
+                🎧 Open Playlist
+            </a>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <button class="nav-btn" onclick="prevSlide()">←</button>
+        <button class="nav-btn" onclick="nextSlide()">→</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        const speeddatingQuestions = [
+            "💚 Wat geeft jou écht energie in het leven? En hoe merk je dat aan jezelf?",
+            "✨ Als je een vaardigheid of talent zou mogen kiezen, welke kies je dan? En wat zou je ermee doen?",
+            "🔍 Waar ben je op dit moment nieuwsgierig naar in je leven?",
+            "☀️ Wat is een kleine gewoonte of ritueel waar je echt blij van wordt?",
+            "🚀 Wat is een droom of doel dat je in 2026 wilt gaan doen?"
+        ];
+
+        // Countdown timer
+        function updateCountdown() {
+            const targetDate = new Date('2026-02-09T13:00:00');
+            const now = new Date();
+            const diff = targetDate - now;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+            } else {
+                document.getElementById('countdown').innerHTML = '<p style="font-size: 1.5rem;">Het is zover! 🎉</p>';
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+
+        // Playlist counter animation
+        function animatePlaylistCounter() {
+            const counter = document.getElementById('playlistCount');
+            const target = 1; // Pas dit aan naar het echte aantal
+            let current = 0;
+            const increment = () => {
+                if (current < target) {
+                    current++;
+                    counter.textContent = current;
+                    setTimeout(increment, 100);
+                }
+            };
+            increment();
+        }
+
+        // Quiz functionality
+        function selectQuiz(element, value) {
+            document.querySelectorAll('.quiz-option').forEach(btn => btn.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('quizResult').classList.add('visible');
+        }
+
+        // Random question
+        function showRandomQuestion() {
+            const randomIndex = Math.floor(Math.random() * speeddatingQuestions.length);
+            const questionEl = document.getElementById('highlightedQuestion');
+            questionEl.style.animation = 'none';
+            questionEl.offsetHeight; // Trigger reflow
+            questionEl.style.animation = 'slideUp 0.4s ease-out';
+            questionEl.textContent = speeddatingQuestions[randomIndex];
+        }
+
+        // Toggle all questions
+        let allQuestionsVisible = false;
+        function toggleAllQuestions() {
+            allQuestionsVisible = !allQuestionsVisible;
+            document.getElementById('allQuestionsCard').style.display = allQuestionsVisible ? 'block' : 'none';
+        }
+
+        // Confetti
+        function createConfetti() {
+            const colors = ['#00A0E2', '#E83F6F', '#FF9F1C', '#1DB954', '#7B68EE', '#ffffff'];
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = confetti.style.width;
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 30);
+            }
+        }
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+
+            document.getElementById('progress').style.width =
+                ((currentSlide + 1) / totalSlides * 100) + '%';
+
+            document.getElementById('slideNumber').textContent =
+                (currentSlide + 1) + ' / ' + totalSlides;
+
+            // Trigger playlist counter animation on slide 5
+            if (currentSlide === 4) {
+                animatePlaylistCounter();
+            }
+
+            // Trigger confetti on last slide
+            if (currentSlide === totalSlides - 1) {
+                createConfetti();
+            }
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) nextSlide();
+                else prevSlide();
+            }
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
